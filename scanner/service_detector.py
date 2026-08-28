@@ -14,8 +14,11 @@ def detect_service(host, port, timeout=1):
         110: "POP3",
         143: "IMAP",
         443: "HTTPS",
+        554: "RTSP",
         3306: "MySQL",
         5432: "PostgreSQL",
+        8000: "HTTP",
+        8080: "HTTP",
     }
 
     service = common_services.get(port)
