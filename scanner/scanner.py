@@ -1,5 +1,6 @@
 from port_scanner import scan_common_ports
 from device_detector import detect_device
+from service_detector import detect_service
 
 
 def main():
@@ -22,10 +23,14 @@ def main():
 
     results = scan_common_ports(target)
 
-    for result in results:
-        port = result["port"]
-        status = result["status"]
+   for result in results:
+    port = result["port"]
+    status = result["status"]
 
+    if status == "open":
+        service = detect_service(target, port)
+        print(f"Port {port}: {status} - {service}")
+    else:
         print(f"Port {port}: {status}")
 
 
