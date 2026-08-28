@@ -1,9 +1,10 @@
-from security_checks import run_security_checks
 from port_scanner import scan_common_ports
 from device_detector import identify_device
 from service_detector import detect_service
 from vulnerability_checker import check_vulnerabilities
 from result_builder import build_result, save_result
+from security_checks import run_security_checks
+from risk_scoring import calculate_risk
 
 
 def main():
@@ -40,10 +41,11 @@ def main():
             print(f"Port {port}: {status}")
 
     findings = check_vulnerabilities(results)
-    
-    security_findings = run_security_checks(results)
 
+    security_findings = run_security_checks(results)
     findings.extend(security_findings)
+
+    risk = calculate_risk(findings)
 
     print("\nVulnerability findings:")
 
@@ -60,12 +62,18 @@ def main():
             print(f"Recommendation: {finding['recommendation']}")
             print()
 
+    print(f"Risk score: {risk['risk_score']}")
+    print(f"Risk level: {risk['risk_level']}")
+
     report = build_result(
         target=target,
         device=device,
         scan_results=results,
         findings=findings
     )
+
+    report["risk_score"] = risk["risk_score"]
+    report["risk_level"] = risk["risk_level"]
 
     filename = save_result(report)
 
