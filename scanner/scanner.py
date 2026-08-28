@@ -23,15 +23,15 @@ def main():
 
     results = scan_common_ports(target)
 
-   for result in results:
-    port = result["port"]
-    status = result["status"]
+    for result in results:
+        port = result["port"]
+        status = result["status"]
 
-    if status == "open":
-        service = detect_service(target, port)
-        print(f"Port {port}: {status} - {service}")
-    else:
-        print(f"Port {port}: {status}")
+        if status == "open":
+            service = detect_service(target, port)
+            print(f"Port {port}: {status} - {service}")
+        else:
+            print(f"Port {port}: {status}")
 
 
 if __name__ == "__main__":
