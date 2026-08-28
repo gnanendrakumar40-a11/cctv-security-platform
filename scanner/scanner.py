@@ -1,5 +1,5 @@
 from port_scanner import scan_common_ports
-from device_detector import detect_device
+from device_detector import identify_device
 from service_detector import detect_service
 
 
@@ -13,15 +13,17 @@ def main():
         print("No target provided.")
         return
 
-    print(f"\nDetecting device at {target}...")
-
-    device = detect_device(target)
-
-    print(f"Device: {device}")
-
     print(f"\nScanning configured ports on {target}...\n")
 
     results = scan_common_ports(target)
+
+    print("Detecting device...")
+
+    device = identify_device(results)
+
+    print(f"Device: {device}")
+
+    print("\nPort scan results:")
 
     for result in results:
         port = result["port"]
