@@ -1,3 +1,4 @@
+from security_checks import run_security_checks
 from port_scanner import scan_common_ports
 from device_detector import identify_device
 from service_detector import detect_service
@@ -39,6 +40,10 @@ def main():
             print(f"Port {port}: {status}")
 
     findings = check_vulnerabilities(results)
+    
+    security_findings = run_security_checks(results)
+
+    findings.extend(security_findings)
 
     print("\nVulnerability findings:")
 
