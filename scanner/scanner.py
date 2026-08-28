@@ -2,6 +2,7 @@ from port_scanner import scan_common_ports
 from device_detector import identify_device
 from service_detector import detect_service
 from vulnerability_checker import check_vulnerabilities
+from result_builder import build_result, save_result
 
 
 def main():
@@ -32,6 +33,7 @@ def main():
 
         if status == "open":
             service = detect_service(target, port)
+            result["service"] = service
             print(f"Port {port}: {status} - {service}")
         else:
             print(f"Port {port}: {status}")
@@ -52,6 +54,17 @@ def main():
             print(f"Description: {finding['description']}")
             print(f"Recommendation: {finding['recommendation']}")
             print()
+
+    report = build_result(
+        target=target,
+        device=device,
+        scan_results=results,
+        findings=findings
+    )
+
+    filename = save_result(report)
+
+    print(f"Structured result saved to: {filename}")
 
 
 if __name__ == "__main__":
