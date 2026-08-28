@@ -1,6 +1,7 @@
 from port_scanner import scan_common_ports
 from device_detector import identify_device
 from service_detector import detect_service
+from vulnerability_checker import check_vulnerabilities
 
 
 def main():
@@ -34,6 +35,23 @@ def main():
             print(f"Port {port}: {status} - {service}")
         else:
             print(f"Port {port}: {status}")
+
+    findings = check_vulnerabilities(results)
+
+    print("\nVulnerability findings:")
+
+    if not findings:
+        print("No findings detected by the configured checks.")
+    else:
+        for finding in findings:
+            print(
+                f"[{finding['severity'].upper()}] "
+                f"{finding['title']} "
+                f"(port {finding['port']})"
+            )
+            print(f"Description: {finding['description']}")
+            print(f"Recommendation: {finding['recommendation']}")
+            print()
 
 
 if __name__ == "__main__":
