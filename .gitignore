@@ -216,4 +216,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+<<<<<<< HEAD
 scanner/scan_result.json
+=======
+
+frontend/node_modules/
+*.db
+__pycache__/
+>>>>>>> 2208651 (feat: complete CCTV VAPT scanner, ML anomaly detector, React dashboard, and camera simulator)
