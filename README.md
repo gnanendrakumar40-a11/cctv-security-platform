@@ -1,58 +1,26 @@
-# CCTV Security Platform
+# 🛡️ Automated VAPT & Behavioral Threat Monitoring Platform for CCTV / DVR Systems
 
-## Automated Vulnerability Assessment and Security Testing Platform for CCTV Cameras and DVRs
+> **Problem Statement Alignment (NTRO):** Automated Vulnerability Assessment and Penetration Testing (VAPT) and real-time behavioral traffic anomaly detection for IP surveillance cameras and digital video recorders.
 
-A cybersecurity platform designed to perform automated security assessment of CCTV cameras and Digital Video Recorders (DVRs) in explicitly authorized environments.
+---
 
-The system helps identify security weaknesses such as exposed services, insecure configurations, weak security policies, outdated software indicators, and abnormal behavior.
+## 📌 Architecture Overview
 
-## Project Features
+The system consists of four integrated modules:
 
-- Authorized asset discovery
-- Device identification and fingerprinting
-- Port and service enumeration
-- Vulnerability assessment
-- Security configuration checks
-- Risk scoring and prioritization
-- Safe security testing simulations
-- Machine Learning based anomaly detection
-- CCTV and DVR activity monitoring
-- Vulnerability reporting
-- Remediation recommendations
-- Web-based security dashboard
+* **VAPT Scanner Engine (`scanner/`):** Performs TCP socket analysis, banner grabbing, HTTP response inspection, and CVSS-aligned risk scoring based on CVE patterns.
+* **ML Anomaly Detection (`ml/`):** Uses an Isolation Forest unsupervised model to analyze telemetry streams (packet rates, throughput, session bursts) and score anomaly confidence.
+* **Appliance & Traffic Simulator (`simulator/`):** Emulates a live Hikvision surveillance target with an interactive HTTP management console (`:8081`) and generates simulated volumetric and authentication attacks.
+* **SOC Monitoring Dashboard (`frontend/` & `backend/`):** FastAPI backend powered by SQLite with a React dark-mode Security Operations Center (SOC) dashboard.
 
-## System Architecture
+---
 
-```text
-                ┌─────────────────────┐
-                │   Web Dashboard     │
-                │     Frontend        │
-                └──────────┬──────────┘
-                           │
-                           ▼
-                ┌─────────────────────┐
-                │     Backend API     │
-                │ Authentication      │
-                │ Scan Management     │
-                └──────┬───────┬──────┘
-                       │       │
-          ┌────────────┘       └────────────┐
-          ▼                                 ▼
-┌─────────────────────┐          ┌─────────────────────┐
-│   Security Scanner  │          │    ML Module        │
-│                     │          │                     │
-│ Discovery           │          │ Anomaly Detection   │
-│ Fingerprinting      │          │ Behavior Analysis   │
-│ Safe Checks         │          │ Alert Generation    │
-└──────────┬──────────┘          └──────────┬──────────┘
-           │                                │
-           └──────────────┬─────────────────┘
-                          ▼
-                ┌─────────────────────┐
-                │      Database       │
-                │ Devices             │
-                │ Scans               │
-                │ Findings            │
-                │ Alerts              │
-                │ Reports             │
-                └─────────────────────┘
+## 🚀 Quick Setup & Execution
+
+### **Prerequisites**
+* Python 3.10+
+* Node.js 18+
+
+### **1. Start the Backend API**
+```powershell
+python -m uvicorn backend.main:app --port 8000 --reload
